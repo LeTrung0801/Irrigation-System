@@ -240,7 +240,7 @@ if (bme.readTemperature() >= 30)
     setLOW();
     Blynk.notify("Độ ẩm thấp, tiến hành tưới cây !!!");
     PumpWater();
-    if (phantram >= 50){
+    if (phantram >= 40){
       Blynk.notify("Đã tưới cây hoàn tất !!!");
       Blynk.virtualWrite(V6,"Đã tưới hoàn tất !!!");  
     }else{
@@ -260,7 +260,7 @@ if (bme.readTemperature() >= 30)
     setLOW();
     Blynk.notify("Độ ẩm thấp, tiến hành tưới cây !!!");
     PumpWater();
-    if (phantram >= 60){
+    if (phantram >= 40){
       Blynk.notify("Đã tưới cây hoàn tất !!!");
       Blynk.virtualWrite(V6,"Đã tưới hoàn tất !!!");  
     }else{
