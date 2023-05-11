@@ -199,14 +199,6 @@ void showTime()
   }
 }
 
-void PumpWater(){
-  digitalWrite(D5,HIGH);
-  delay(8000);
-    Blynk.virtualWrite(V6,"Độ ẩm thấp - đang tưới nước !!!");         
-  digitalWrite(D5,LOW);
-  delay(20000);
-}
-
 void setLOW(){
   appledr.on();
   appledg.off();
@@ -233,40 +225,38 @@ void setLED(){
 
 if (bme.readTemperature() >= 30)
 {
-  if(phantram >= 35 && phantram <= 75){  //check nor  
+  if(phantram >= 45 && phantram <= 75){  //check nor  
     setNORMAL();
     Blynk.virtualWrite(V6,"Độ ẩm ổn định !!!");
   }else if(phantram < 35 ){
     setLOW();
     Blynk.notify("Độ ẩm thấp, tiến hành tưới cây !!!");
-    PumpWater();
-    if (phantram >= 40){
+    digitalWrite(D5,HIGH);
+    if (phantram >= 50){
       Blynk.notify("Đã tưới cây hoàn tất !!!");
       Blynk.virtualWrite(V6,"Đã tưới hoàn tất !!!");  
-    }else{
-        PumpWater();
+      digitalWrite(D5,LOW);
     }
-  }else{
+  }else if(phantram >= 95){
     setHIGH();
     Blynk.notify("Độ ẩm cao !!!");
     Blynk.virtualWrite(V6,"Độ ẩm cao !!!");
   }
 }else if (bme.readTemperature() < 30)
 {
-  if(phantram >= 25 && phantram <= 75){  //check nor  
+  if(phantram >= 45 && phantram <= 75){  //check nor  
     setNORMAL();
     Blynk.virtualWrite(V6,"Độ ẩm ổn định !!!");
   }else if(phantram < 25 ){
     setLOW();
     Blynk.notify("Độ ẩm thấp, tiến hành tưới cây !!!");
-    PumpWater();
-    if (phantram >= 40){
+    digitalWrite(D5,HIGH);
+    if (phantram >= 45){
       Blynk.notify("Đã tưới cây hoàn tất !!!");
-      Blynk.virtualWrite(V6,"Đã tưới hoàn tất !!!");  
-    }else{
-        PumpWater();
+      Blynk.virtualWrite(V6,"Đã tưới hoàn tất !!!"); 
+      digitalWrite(D5,LOW); 
     }
-  }else{
+  }else if(phantram >= 95){
     setHIGH();
     Blynk.notify("Độ ẩm cao !!!");
     Blynk.virtualWrite(V6,"Độ ẩm cao !!!");
