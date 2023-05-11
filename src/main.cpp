@@ -60,8 +60,8 @@ byte dayStartSelect = 0;
 byte dayStopSelect = 0;
 char auth[] = "EkIFNzrP6stGvakmwxG7OEi7UFyRdh3n";
 
-char ssid[] = "LyTruc";
-char pass[] = "lythiletruc";
+char ssid[] = "WIFI Phong 4";
+char pass[] = "hoil@mchi!";
 char server[] = "tantien.myvnc.com";
 uint16_t port = 8080;
 
@@ -207,6 +207,26 @@ void PumpWater(){
   delay(20000);
 }
 
+void setLOW(){
+  appledr.on();
+  appledg.off();
+  appledy.off();
+}
+
+void setNORMAL(){
+  appledr.off();
+  appledg.on();
+  appledy.off();
+  digitalWrite(D5,LOW);
+}
+
+void setHIGH(){
+  appledr.off();
+  appledg.off();
+  appledy.on();
+  digitalWrite(D5,LOW);
+}
+
 void setLED(){
   analogVal = analogRead(A0); // 0 --> 1023S
   phantram = map(analogVal, 0, 1023, 100, 0); // chuyen sang phantram\
@@ -214,15 +234,10 @@ void setLED(){
 if (bme.readTemperature() >= 30)
 {
   if(phantram >= 35 && phantram <= 75){  //check nor  
-    appledr.off();
-    appledg.on();
-    appledy.off();
-    digitalWrite(D5,LOW);
+    setNORMAL();
     Blynk.virtualWrite(V6,"Độ ẩm ổn định !!!");
   }else if(phantram < 35 ){
-    appledr.on();
-    appledg.off();
-    appledy.off();
+    setLOW();
     Blynk.notify("Độ ẩm thấp, tiến hành tưới cây !!!");
     PumpWater();
     if (phantram >= 50){
@@ -232,25 +247,17 @@ if (bme.readTemperature() >= 30)
         PumpWater();
     }
   }else{
-    appledr.off();
-    appledg.off();
-    appledy.on();
-    digitalWrite(D5,LOW);
+    setHIGH();
     Blynk.notify("Độ ẩm cao !!!");
     Blynk.virtualWrite(V6,"Độ ẩm cao !!!");
   }
 }else if (bme.readTemperature() < 30)
 {
   if(phantram >= 25 && phantram <= 75){  //check nor  
-    appledr.off();
-    appledg.on();
-    appledy.off();
-    digitalWrite(D5,LOW);
+    setNORMAL();
     Blynk.virtualWrite(V6,"Độ ẩm ổn định !!!");
   }else if(phantram < 25 ){
-    appledr.on();
-    appledg.off();
-    appledy.off();
+    setLOW();
     Blynk.notify("Độ ẩm thấp, tiến hành tưới cây !!!");
     PumpWater();
     if (phantram >= 60){
@@ -260,10 +267,7 @@ if (bme.readTemperature() >= 30)
         PumpWater();
     }
   }else{
-    appledr.off();
-    appledg.off();
-    appledy.on();
-    digitalWrite(D5,LOW);
+    setHIGH();
     Blynk.notify("Độ ẩm cao !!!");
     Blynk.virtualWrite(V6,"Độ ẩm cao !!!");
   }
