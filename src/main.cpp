@@ -120,28 +120,21 @@ BLYNK_WRITE(V8){
 }
 BLYNK_WRITE(V9){
    TimeInputParam t(param); 
-  if (t.hasStartTime())
-  {
+  if (t.hasStartTime()){
     TimeStart = t.getStartHour()*60 + t.getStartMinute();     
-  }
-  else TimeStart = 0;
+  }else TimeStart = 0;
 
-  if (t.hasStopTime())
-  {
+  if (t.hasStopTime()){
     TimeStop = t.getStopHour()*60 + t.getStopMinute();
-  }
-  else TimeStop = 0;
+  }else TimeStop = 0;
   dayStartSelect = 0;
   dayStopSelect  = 0;
   for (int i = 1; i <= 7; i++)
     if (t.isWeekdaySelected(i)){
-      if (i == 7)
-      {
+      if (i == 7){
         bitWrite(dayStartSelect, 0,   1);
         bitWrite(dayStopSelect,  1,   1);
-      }
-      else
-      {
+      }else{
         bitWrite(dayStartSelect, i, 1);
         bitWrite(dayStopSelect,  i+1, 1);
       }
@@ -173,8 +166,7 @@ void TimeAuto()
   }
 }
 
-void showTime()
-{
+void showTime(){
   appledr.off();
   appledg.off();
   appledy.off();
@@ -182,15 +174,12 @@ void showTime()
   if (oldSecond != nowSecond)
   {
     oldSecond = nowSecond;
-    if (oldtimeOnOff != timeOnOff)
-    {
-      if (timeOnOff)
-      {
+    if (oldtimeOnOff != timeOnOff){
+      if (timeOnOff){
         digitalWrite(D5,LOW);
         Serial.println("Time schedule is ON");
       }
-      else
-      {
+      else{
         digitalWrite(D5,HIGH);
         Serial.println("Time schedule is OFF");
       }
@@ -221,10 +210,8 @@ void setHIGH(){
 
 void setLED(){
   analogVal = analogRead(A0); // 0 --> 1023S
-  phantram = map(analogVal, 0, 1023, 100, 0); // chuyen sang phantram\
-
-if (bme.readTemperature() >= 30)
-{
+  phantram = map(analogVal, 0, 1023, 100, 0); // chuyen sang phantram
+if (bme.readTemperature() >= 30){
   if(phantram >= 45 && phantram <= 75){  //check nor  
     setNORMAL();
     Blynk.virtualWrite(V6,"Độ ẩm ổn định !!!");
@@ -242,8 +229,7 @@ if (bme.readTemperature() >= 30)
     Blynk.notify("Độ ẩm cao !!!");
     Blynk.virtualWrite(V6,"Độ ẩm cao !!!");
   }
-}else if (bme.readTemperature() < 30)
-{
+}else if (bme.readTemperature() < 30){
   if(phantram >= 45 && phantram <= 75){  //check nor  
     setNORMAL();
     Blynk.virtualWrite(V6,"Độ ẩm ổn định !!!");
